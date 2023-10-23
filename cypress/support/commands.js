@@ -23,48 +23,34 @@
 //
 // -- This will overwrite an existing command --
 
-const cypress = require("cypress")
-
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-Cypress.Commands.add('token', (email, senha) => {
+Cypress.Commands.add("token", (email, senha) => {
+  cy.request({
+    method: "POST",
+    url: "login",
+    body: {
+      email: email,
+      password: senha,
+    },
+  }).then((response) => {
+    expect(response.status).to.equal(200);
+    return response.body.authorization;
+  });
+});
+
+Cypress.Commands.add("cadastrarProduto", () => {
+  it("Deve validar mensagem de erro ao cadastrar produto", (token, produto, preco, descricao, quantidade) => {
     cy.request({
-        method: 'POST',
-        url: 'login',
-        body:{
-            "email": email,
-            "password": senha
-          }
-               
-        }) .then((response) => {
-            expect(response.status).to.equal(200)
-            return response.body.authorization
-       
-        }) 
-
-})
-
-cypress.Commands.add('cadastrarProduto' , () => {
-    it('Deve validar mensagem de erro ao cadastrar produto', (token,produto,preco,descricao,quantidade) => {
-        cy.request({
-          method: 'POST',
-          url: 'produtos',
-          headers: {authorization: token},
-          body:{
-              "nome": produto,
-              "preco": preco,
-              "descricao": descricao,
-              "quantidade": quantidade
-            },
-            
-            failOnStatusCode: false
-             
-     })
-
-
-})
-})
-
-
-
-
-
+      method: "POST",
+      url: "produtos",
+      headers: { authorization: token },
+      body: {
+        nome: produto,
+        preco: preco,
+        descricao: descricao,
+        quantidade: quantidade,
+      },
+      failOnStatusCode: false,
+    });
+  });
+});
