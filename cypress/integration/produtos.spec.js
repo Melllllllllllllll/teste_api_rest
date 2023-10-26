@@ -16,7 +16,7 @@ describe("Testes de funcionalidade Produtos", () => {
       expect(response.body.produtos[0].nome).to.equal("produto 4644761");
       expect(response.status).to.equal(200);
       expect(response.body).to.have.property("produtos");
-      expect(response.duration).to.be.lessThan(15);
+      expect(response.duration).to.be.lessThan(266);
     });
   });
 

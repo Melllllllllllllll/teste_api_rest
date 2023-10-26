@@ -38,8 +38,7 @@ Cypress.Commands.add("token", (email, senha) => {
   });
 });
 
-Cypress.Commands.add("cadastrarProduto", () => {
-  it("Deve validar mensagem de erro ao cadastrar produto", (token, produto, preco, descricao, quantidade) => {
+Cypress.Commands.add("cadastrarProduto", (token, produto, preco, descricao, quantidade) => {
     cy.request({
       method: "POST",
       url: "produtos",
@@ -53,4 +52,4 @@ Cypress.Commands.add("cadastrarProduto", () => {
       failOnStatusCode: false,
     });
   });
-});
+
